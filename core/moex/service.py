@@ -29,10 +29,7 @@ class MoexService:
                 f"Запрос данных с MOEX. Параметры: только последний день={get_only_last_day}, сохранить в БД={save_to_db}"
             )
             
-            # request_url = (URL + f"&from={datetime.now().strftime('%Y-%m-%d')}") if get_only_last_day else URL
-            request_url = (URL + f"&from=2024-11-22") if get_only_last_day else URL
-
-            self.logger.debug(f"URL запроса: {request_url}")
+            request_url = (URL + f"&from={datetime.now().strftime('%Y-%m-%d')}") if get_only_last_day else URL
             
             response = requests.get(request_url)
             
