@@ -1,0 +1,38 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider  = "prisma-client-py"
+  interface = "asyncio"
+}
+
+model User {
+  uuid            String         @id @default(uuid())
+  email           String         @unique
+  hashed_password String
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
+
+  @@map("users")
+}
+
+model Candle {
+  uuid                 String         @id @default(uuid())
+  date                 DateTime
+  price                Float
+  volume               Float
+  analized_candle      AnalizedCandle?
+
+  @@map("candles")
+}
+
+model AnalizedCandle {
+  uuid            String         @id @default(uuid())
+  ai_analysis     String
+  candle_uuid     String         @unique
+  candle          Candle         @relation(fields: [candle_uuid], references: [uuid], onDelete: Cascade)
+
+  @@map("analized_candles")
+}
